@@ -1,0 +1,172 @@
+/* Pending state: applied immediately before classification */
+.ds4-pending {
+  position: relative;
+}
+
+.ds4-pending > * {
+  filter: blur(10px);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.15;
+}
+
+.ds4-pending::after {
+  content: 'classifying...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--ds4-text-dim);
+  z-index: 10;
+  animation: ds4-pulse 1.2s steps(2) infinite;
+}
+
+@keyframes ds4-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Feed state: SHOW */
+.ds4-show {
+  border-left: 2px solid var(--ds4-accent);
+}
+
+.ds4-show-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--ds4-accent-dim);
+  border: 1px solid var(--ds4-accent);
+  border-radius: 2px;
+  padding: 2px 6px;
+  z-index: 5;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.ds4-show-badge:hover {
+  opacity: 1;
+}
+
+.ds4-badge-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--ds4-accent);
+  letter-spacing: 1px;
+}
+
+/* Feed state: BLUR — collapsed to compact bar */
+.ds4-blur-wrapper {
+  position: relative;
+}
+
+.ds4-blur-content {
+  display: none;
+}
+
+.ds4-blur-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--ds4-blur-fg);
+  background: var(--ds4-blur-bg);
+  flex-wrap: wrap;
+}
+
+.ds4-blur-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--ds4-blur-fg);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ds4-blur-reason {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--ds4-text-dim);
+  flex: 1;
+  white-space: normal;
+  min-width: 0;
+}
+
+.ds4-blur-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.ds4-reveal-btn,
+.ds4-retry-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  border: 1px solid var(--ds4-border-bright);
+  background: transparent;
+  color: var(--ds4-text-dim);
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.ds4-reveal-btn:hover {
+  color: var(--ds4-accent);
+  border-color: var(--ds4-accent);
+}
+
+.ds4-retry-btn:hover {
+  color: #ffaa00;
+  border-color: #ffaa00;
+}
+
+/* Feed state: HIDE */
+.ds4-hide-wrapper {
+  height: 28px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  opacity: 0.35;
+  cursor: pointer;
+  border-left: 2px solid var(--ds4-hide-fg);
+  background: var(--ds4-hide-bg);
+  transition: opacity 0.15s;
+}
+
+.ds4-hide-wrapper:hover {
+  opacity: 0.6;
+}
+
+.ds4-hide-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: var(--ds4-hide-fg);
+  white-space: nowrap;
+}
+
+.ds4-hide-reason {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: var(--ds4-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Eating animation */
+@keyframes ds4-chomp {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0.85); }
+  100% { transform: scaleY(1); }
+}
+
+.ds4-eating {
+  animation: ds4-chomp 0.3s steps(1) 3;
+}

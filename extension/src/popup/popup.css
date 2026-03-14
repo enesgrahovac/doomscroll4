@@ -1,0 +1,430 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 320px;
+  height: 240px;
+  background: #0d0d0d;
+  color: #cccccc;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Panels */
+.panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #00ff88;
+  letter-spacing: 1px;
+}
+
+.title-sm {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #00ff88;
+}
+
+.active-dot {
+  width: 6px;
+  height: 6px;
+  background: #00ff88;
+  border-radius: 1px;
+  animation: blink 1.5s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.close-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666666;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.close-btn:hover {
+  color: #ff4444;
+  border-color: #ff4444;
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  background: #111111;
+  border: 1px solid #1e1e1e;
+  border-radius: 2px;
+}
+
+.stat-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #eeeeee;
+}
+
+.stat-label {
+  font-size: 7px;
+  color: #666666;
+  letter-spacing: 1px;
+}
+
+/* Gremlin */
+.gremlin-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  padding: 4px 0;
+}
+
+#gremlin-canvas {
+  image-rendering: pixelated;
+  border: 1px solid #1e1e1e;
+  border-radius: 2px;
+}
+
+.gremlin-status {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #666666;
+  text-transform: uppercase;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.footer-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666666;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.footer-btn:hover {
+  color: #00ff88;
+  border-color: #00ff88;
+}
+
+/* Onboarding */
+.onboarding-progress {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.progress-seg {
+  flex: 1;
+  height: 4px;
+  background: #1e1e1e;
+  border-radius: 1px;
+}
+
+.progress-seg.active {
+  background: #00ff88;
+}
+
+.ob-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.ob-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #00ff88;
+  margin-bottom: 6px;
+}
+
+.ob-desc {
+  font-size: 10px;
+  color: #666666;
+  margin-bottom: 10px;
+}
+
+/* Chip inputs */
+.chip-input {
+  margin-bottom: 8px;
+}
+
+.chip-field {
+  width: 100%;
+  background: #111111;
+  border: 1px solid #1e1e1e;
+  border-radius: 2px;
+  color: #cccccc;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  padding: 6px 8px;
+  outline: none;
+}
+
+.chip-field:focus {
+  border-color: #00ff88;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #00ff8822;
+  border: 1px solid #00ff8844;
+  border-radius: 2px;
+  padding: 2px 6px;
+  font-size: 8px;
+  color: #00ff88;
+}
+
+.chip-remove {
+  cursor: pointer;
+  color: #00ff88;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+
+.chip-remove:hover {
+  color: #ff4444;
+}
+
+.quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.quick-chip {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 2px;
+  color: #666666;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.quick-chip:hover {
+  color: #00ff88;
+  border-color: #00ff88;
+}
+
+/* Goal buttons */
+.goal-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.goal-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  background: #111111;
+  border: 1px solid #1e1e1e;
+  border-radius: 2px;
+  color: #666666;
+  padding: 10px 6px;
+  cursor: pointer;
+  transition: color 0.1s, border-color 0.1s;
+}
+
+.goal-btn:hover {
+  border-color: #2a2a2a;
+  color: #cccccc;
+}
+
+.goal-btn.active {
+  border-color: #00ff88;
+  color: #00ff88;
+  background: #00ff8822;
+}
+
+/* Platform toggles */
+.platform-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.platform-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 6px 8px;
+  background: #111111;
+  border: 1px solid #1e1e1e;
+  border-radius: 2px;
+}
+
+.platform-toggle input[type="checkbox"] {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #0d0d0d;
+  border: 1px solid #2a2a2a;
+  border-radius: 1px;
+  cursor: pointer;
+  position: relative;
+}
+
+.platform-toggle input[type="checkbox"]:checked {
+  background: #00ff88;
+  border-color: #00ff88;
+}
+
+.platform-toggle input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: #0d0d0d;
+  border-radius: 0;
+}
+
+.toggle-label {
+  font-size: 10px;
+  color: #cccccc;
+}
+
+/* Onboarding nav */
+.ob-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.ob-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666666;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.ob-btn:hover:not(:disabled) {
+  color: #cccccc;
+  border-color: #cccccc;
+}
+
+.ob-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ob-btn-primary {
+  border-color: #00ff88;
+  color: #00ff88;
+}
+
+.ob-btn-primary:hover:not(:disabled) {
+  background: #00ff8822;
+  color: #00ff88;
+  border-color: #00ff88;
+}
+
+/* Settings */
+.settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.setting-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.setting-input {
+  width: 100%;
+  background: #111111;
+  border: 1px solid #1e1e1e;
+  border-radius: 2px;
+  color: #cccccc;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  padding: 6px 8px;
+  outline: none;
+}
+
+.setting-input:focus {
+  border-color: #00ff88;
+}
+
+/* Onboarding API setup */
+.ob-api-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ob-hint {
+  font-size: 9px;
+  color: #666666;
+  line-height: 1.4;
+}

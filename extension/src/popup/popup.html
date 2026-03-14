@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=320">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+  <title>DOOMSCROLL4</title>
+</head>
+<body>
+  <!-- Main Panel -->
+  <div id="main-panel" class="panel">
+    <header class="header">
+      <h1 class="title">DOOMSCROLL4</h1>
+      <span class="active-dot" title="Active"></span>
+    </header>
+
+    <section class="stats">
+      <div class="stat">
+        <span class="stat-value" id="stat-shown">0</span>
+        <span class="stat-label">SHOWN</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-blurred">0</span>
+        <span class="stat-label">BLURRED</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-hidden">0</span>
+        <span class="stat-label">HIDDEN</span>
+      </div>
+    </section>
+
+    <section class="gremlin-section">
+      <canvas id="gremlin-canvas" width="64" height="64"></canvas>
+      <span class="gremlin-status" id="gremlin-status">idle</span>
+    </section>
+
+    <footer class="footer">
+      <button id="btn-settings" class="footer-btn">SETTINGS</button>
+      <button id="btn-help" class="footer-btn">HELP</button>
+    </footer>
+  </div>
+
+  <!-- Onboarding Panel -->
+  <div id="onboarding-panel" class="panel hidden">
+    <div class="onboarding-progress">
+      <div class="progress-seg active" data-step="0"></div>
+      <div class="progress-seg" data-step="1"></div>
+      <div class="progress-seg" data-step="2"></div>
+      <div class="progress-seg" data-step="3"></div>
+      <div class="progress-seg" data-step="4"></div>
+    </div>
+
+    <!-- Screen 1: Interests -->
+    <div class="ob-screen" data-screen="0">
+      <h2 class="ob-title">INTERESTS</h2>
+      <p class="ob-desc">What topics do you want to see?</p>
+      <div class="chip-input">
+        <input type="text" id="interest-input" class="chip-field" placeholder="Type + Enter">
+        <div class="chip-list" id="interest-chips"></div>
+      </div>
+      <div class="quick-chips" id="interest-quick">
+        <button class="quick-chip" data-value="tech">tech</button>
+        <button class="quick-chip" data-value="science">science</button>
+        <button class="quick-chip" data-value="design">design</button>
+        <button class="quick-chip" data-value="business">business</button>
+        <button class="quick-chip" data-value="ai">ai</button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Goal -->
+    <div class="ob-screen hidden" data-screen="1">
+      <h2 class="ob-title">GOAL</h2>
+      <p class="ob-desc">What are you here for?</p>
+      <div class="goal-options">
+        <button class="goal-btn active" data-goal="learn">LEARN</button>
+        <button class="goal-btn" data-goal="stay_informed">STAY INFORMED</button>
+        <button class="goal-btn" data-goal="network">NETWORK</button>
+        <button class="goal-btn" data-goal="all">ALL</button>
+      </div>
+    </div>
+
+    <!-- Screen 3: Avoids -->
+    <div class="ob-screen hidden" data-screen="2">
+      <h2 class="ob-title">AVOID</h2>
+      <p class="ob-desc">Topics you want to filter out?</p>
+      <div class="chip-input">
+        <input type="text" id="avoid-input" class="chip-field" placeholder="Type + Enter">
+        <div class="chip-list" id="avoid-chips"></div>
+      </div>
+      <div class="quick-chips" id="avoid-quick">
+        <button class="quick-chip" data-value="politics">politics</button>
+        <button class="quick-chip" data-value="drama">drama</button>
+        <button class="quick-chip" data-value="rage bait">rage bait</button>
+        <button class="quick-chip" data-value="celebrity">celebrity</button>
+      </div>
+    </div>
+
+    <!-- Screen 4: Platforms -->
+    <div class="ob-screen hidden" data-screen="3">
+      <h2 class="ob-title">PLATFORMS</h2>
+      <p class="ob-desc">Enable filtering on:</p>
+      <div class="platform-toggles">
+        <label class="platform-toggle">
+          <input type="checkbox" id="plat-twitter" checked>
+          <span class="toggle-label">Twitter / X</span>
+        </label>
+        <label class="platform-toggle">
+          <input type="checkbox" id="plat-linkedin">
+          <span class="toggle-label">LinkedIn</span>
+        </label>
+        <label class="platform-toggle">
+          <input type="checkbox" id="plat-instagram">
+          <span class="toggle-label">Instagram</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Screen 5: API Setup -->
+    <div class="ob-screen hidden" data-screen="4">
+      <h2 class="ob-title">CONNECT</h2>
+      <p class="ob-desc">Enter your API key to activate:</p>
+      <div class="ob-api-setup">
+        <input type="text" id="ob-api-key" class="setting-input" placeholder="sk-...">
+        <p class="ob-hint">Your API key authenticates with the Doomscroll4 backend.</p>
+      </div>
+    </div>
+
+    <div class="ob-nav">
+      <button id="ob-back" class="ob-btn" disabled>BACK</button>
+      <button id="ob-next" class="ob-btn ob-btn-primary">NEXT</button>
+    </div>
+  </div>
+
+  <!-- Settings Panel -->
+  <div id="settings-panel" class="panel hidden">
+    <header class="header">
+      <h1 class="title-sm">SETTINGS</h1>
+      <button id="btn-settings-close" class="close-btn">X</button>
+    </header>
+    <div class="settings-body">
+      <label class="setting-label">API URL</label>
+      <input type="text" id="setting-api-url" class="setting-input" placeholder="http://localhost:8000">
+      <label class="setting-label">API Key</label>
+      <input type="text" id="setting-api-key" class="setting-input" placeholder="your-api-key">
+      <button id="btn-edit-profile" class="footer-btn" style="margin-top:8px;">EDIT PROFILE</button>
+      <button id="btn-save-settings" class="ob-btn ob-btn-primary" style="margin-top:8px;width:100%;">SAVE</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

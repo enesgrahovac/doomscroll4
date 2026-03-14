@@ -1,0 +1,61 @@
+id,category,post_text,expected_learn,expected_stay_informed,expected_network
+1,tech,"Just published a deep dive into transformer attention mechanisms and why sparse attention patterns outperform dense ones on long-context tasks. Thread 🧵",show,blur,blur
+2,tech,"New paper from DeepMind: they found that scaling test-time compute with chain-of-thought gives bigger gains than scaling model parameters. This changes everything about how we think about model size.",show,show,blur
+3,tech,"Here's a quick Python trick most people don't know: you can use functools.cache instead of lru_cache(maxsize=None) — same behavior, cleaner syntax. Works on 3.9+",show,blur,blur
+4,tech,"Been running Qwen2.5-32B locally on my M4 Max. Getting 28 tok/s which is genuinely usable for coding assistance. The 4-bit GGUF quant quality is surprisingly good.",show,blur,blur
+5,tech,"Rust's borrow checker just saved me from a use-after-free bug that would have taken hours to debug in C++. I know it's a meme at this point but it's actually true.",show,blur,blur
+6,news,"BREAKING: EU passes the AI Liability Directive. Companies deploying AI systems will be strictly liable for damages. This is going to reshape how every tech company ships AI in Europe.",show,show,blur
+7,news,"Fed holds rates steady at 5.25%. Powell signals one more cut possible in Q2. Markets barely moved — this was fully priced in.",blur,show,blur
+8,news,"Major earthquake hits central Turkey, 6.8 magnitude. Rescue operations underway. At least 12 confirmed casualties so far.",blur,show,blur
+9,news,"OpenAI just announced GPT-5. Early benchmarks show significant reasoning improvements but coding performance is only marginally better than GPT-4o.",show,show,blur
+10,news,"Apple is reportedly acquiring a robotics startup for $2B. They're doubling down on the home robot play after the Vision Pro pivot.",blur,show,blur
+11,ads,"🚀 Limited time offer! Get 50% off our AI-powered writing tool. Use code WRITE50 at checkout. Over 10,000 happy customers! Link in bio.",hide,hide,hide
+12,ads,"I've been using @BrandName for 3 months and it completely changed my workflow. Honestly can't recommend it enough. (Yes this is sponsored but I genuinely love it) #ad #sponsored",hide,hide,hide
+13,ads,"FREE WEBINAR: Learn how to make $10k/month with AI automation. Only 50 spots left! Register now 👇",hide,hide,hide
+14,ads,"Just dropped my new course on building AI agents. Early bird pricing ends Friday. 200+ students already enrolled. DM me 'AGENT' for the link.",hide,hide,hide
+15,gossip,"Did you see what Elon tweeted at 3am? The man is absolutely unhinged lmao. Screenshot attached.",hide,hide,hide
+16,gossip,"Celebrity X and Celebrity Y spotted together in Paris. The internet is losing its mind. Here's everything we know about their relationship timeline.",hide,hide,hide
+17,gossip,"The drama between these two influencers is INSANE. Full breakdown of who said what and why everyone is picking sides. Thread:",hide,hide,hide
+18,outrage,"This is what's wrong with Gen Z. They don't want to work, they just want handouts. I said what I said.",hide,hide,hide
+19,outrage,"If you support [political position] you're literally destroying this country. I don't care if you unfollow me.",hide,hide,hide
+20,outrage,"Can we talk about how NOBODY is covering this? The media doesn't want you to know about [vague conspiracy]. Wake up people.",hide,hide,hide
+21,outrage,"Ratio + L + didn't ask + nobody cares. Stay mad.",hide,hide,hide
+22,career,"We're hiring senior engineers at [Company]. Remote-friendly, great comp, working on interesting distributed systems problems. DM me if interested.",blur,blur,show
+23,career,"Just got promoted to Staff Engineer after 3 years at the company. Here's what I learned about the promo process that nobody tells you. Thread 🧵",blur,blur,show
+24,career,"Hot take: your resume doesn't matter nearly as much as your network. Every job I've gotten in the last 10 years came through a personal connection.",blur,blur,show
+25,career,"Salary transparency post: I'm a senior SWE in SF, 8 YOE, making $380k TC. Ask me anything about comp negotiation.",blur,blur,show
+26,career,"LinkedIn is such a cesspool of humble bragging but I'll say this: if you're not posting there, you're invisible to recruiters. It's a necessary evil for career growth.",blur,blur,show
+27,borderline,"Interesting perspective on remote work vs office. I think the truth is somewhere in the middle — some roles benefit from in-person collaboration, others don't.",blur,blur,blur
+28,borderline,"Anyone else feel like the tech industry has become weirdly cult-like? I love building software but the hustle culture is exhausting.",blur,blur,blur
+29,borderline,"Coffee is just a legal performance-enhancing drug and I'm okay with that ☕",blur,blur,blur
+30,borderline,"Unpopular opinion: most design systems are over-engineered for the size of the team using them. Just write CSS.",blur,blur,blur
+31,tech,"Comprehensive guide to setting up a production Kubernetes cluster from scratch. Covers networking, storage, monitoring, and secrets management. Bookmarking this.",show,blur,blur
+32,tech,"TIL that PostgreSQL has a 'GENERATED ALWAYS AS' column feature for computed columns. No more triggers for derived fields. This is clean.",show,blur,blur
+33,tech,"The WebGPU API is finally stable in Chrome. Wrote a quick benchmark — it's 3-4x faster than WebGL for compute shaders. Game changer for browser-based ML inference.",show,show,blur
+34,engagement_bait,"Like if you agree: hard work beats talent when talent doesn't work hard 💯🔥",hide,hide,hide
+35,engagement_bait,"What's a hill you'll die on? Wrong answers only. Go 👇",hide,hide,hide
+36,engagement_bait,"Repost if you're a REAL programmer. Ignore if you use no-code tools.",hide,hide,hide
+37,engagement_bait,"Tag someone who needs to hear this: you are enough. ❤️ #motivation #blessed",hide,hide,hide
+38,tech,"Understanding garbage collection in V8: a visual guide to how Node.js manages memory. This cleared up so many misconceptions I had.",show,blur,blur
+39,news,"GitHub Copilot now supports multi-file editing in VS Code. Early reports say it's genuinely useful for refactoring across modules.",show,show,blur
+40,career,"I interviewed at 5 FAANG companies in 2 weeks. Here's my honest review of each interview process, what they asked, and what they valued. No affiliate links, just raw notes.",blur,blur,show
+41,tech,"Wrote a blog post on why I migrated from Next.js to Astro for my personal site. TLDR: 90% less JavaScript shipped, same DX, way faster build times.",show,blur,blur
+42,gossip,"Can't believe what just happened on that reality show. My jaw is on the floor. If you know you know 😂",hide,hide,hide
+43,tech,"PSA: there's a critical vulnerability in the popular npm package 'event-stream'. If you're using it, update immediately. CVE details in the link.",show,show,blur
+44,news,"Y Combinator W26 batch is the largest ever — 350 companies. Themes: AI agents, climate tech, and biotech dominate. Full list and analysis here.",show,show,show
+45,borderline,"Sometimes I think about how wild it is that we're all just carrying supercomputers in our pockets and mostly using them to argue with strangers.",blur,blur,blur
+46,career,"The best career advice I ever got: optimize for learning rate in your 20s, earning rate in your 30s, and impact in your 40s.",blur,blur,show
+47,tech,"Built a real-time collaborative code editor using CRDTs instead of OT. Here's the architecture and why CRDTs made conflict resolution trivial. Open source.",show,blur,blur
+48,outrage,"Absolutely disgusted by [political party]. How can anyone vote for these people? Unfriend me if you disagree, I don't care.",hide,hide,hide
+49,tech,"Anthropic just released a new paper on constitutional AI training. The results on safety benchmarks are impressive without meaningful capability regression.",show,show,blur
+50,news,"Global chip shortage easing: TSMC reports record production of 3nm chips. Prices for consumer GPUs expected to drop 15-20% by Q3.",blur,show,blur
+51,career,"Reminder: your manager is not your mentor, your friend, or your therapist. They are an agent of the company. Manage accordingly.",blur,blur,show
+52,tech,"Found an incredible resource: a visual explanation of how diffusion models work, step by step. Finally understand the math behind Stable Diffusion.",show,blur,blur
+53,engagement_bait,"I'm going to give away $1000 to a random person who reposts this and follows me. Drawing in 48 hours! 🎉",hide,hide,hide
+54,borderline,"The best code is the code you never write. But also, at some point you have to actually ship something.",blur,blur,blur
+55,tech,"Benchmarked SQLite vs PostgreSQL for a read-heavy workload under 10k concurrent users. SQLite won handily up to about 2k concurrent. Detailed results and methodology in the post.",show,blur,blur
+56,news,"EU regulators fine Meta €1.2B for GDPR violations related to data transfers. Largest privacy fine ever issued.",blur,show,blur
+57,career,"Unpopular opinion: code reviews are more about knowledge sharing than catching bugs. If you're catching lots of bugs in review, your testing is broken.",blur,blur,show
+58,gossip,"The tea is HOT today. [Influencer] just exposed [other influencer] for faking their entire lifestyle. Screenshots don't lie.",hide,hide,hide
+59,tech,"Migrated our entire CI/CD from Jenkins to GitHub Actions. Took 2 weeks. Build times dropped 40%, config is 10x more readable. Should have done it years ago.",show,blur,blur
+60,outrage,"Society is DOOMED. Look at what kids are doing these days. In my day we had respect. Now it's all TikTok and participation trophies.",hide,hide,hide

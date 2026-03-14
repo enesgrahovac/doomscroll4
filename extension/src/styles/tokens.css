@@ -1,0 +1,20 @@
+:root {
+  --ds4-accent: #00ff88;
+  --ds4-accent-dim: #00ff8822;
+  --ds4-accent-mid: #00cc66;
+  --ds4-accent-glow: 0 0 8px #00ff8844;
+  --ds4-bg: #0d0d0d;
+  --ds4-bg-raise: #111111;
+  --ds4-bg-raise-2: #161616;
+  --ds4-border: #1e1e1e;
+  --ds4-border-bright: #2a2a2a;
+  --ds4-text: #cccccc;
+  --ds4-text-dim: #666666;
+  --ds4-text-bright: #eeeeee;
+  --ds4-show: var(--ds4-accent);
+  --ds4-show-bg: var(--ds4-accent-dim);
+  --ds4-blur-fg: #555555;
+  --ds4-blur-bg: #ffffff08;
+  --ds4-hide-fg: #ff4444;
+  --ds4-hide-bg: #ff000011;
+}

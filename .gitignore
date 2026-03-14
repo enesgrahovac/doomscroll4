@@ -4,3 +4,12 @@ __pycache__/
 dist/
 *.pyc
 .DS_Store
+api/.env
+extension/dist/
+extension/node_modules/
+*.db
+.venv/
+api/.venv/
+*.egg-info/
+.claude/
+.pytest_cache/
