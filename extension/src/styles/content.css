@@ -60,6 +60,21 @@
   letter-spacing: 1px;
 }
 
+.ds4-show-reason {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--ds4-text-dim);
+  padding: 6px 12px;
+  border-left: 2px solid var(--ds4-accent);
+  background: var(--ds4-accent-dim, #00ff8808);
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.ds4-show-reason:hover {
+  opacity: 1;
+}
+
 /* Feed state: BLUR — collapsed to compact bar */
 .ds4-blur-wrapper {
   position: relative;
@@ -125,23 +140,25 @@
   border-color: #ffaa00;
 }
 
-/* Feed state: HIDE */
+/* Feed state: HIDE — two-step reveal */
 .ds4-hide-wrapper {
-  height: 28px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 12px;
-  opacity: 0.35;
-  cursor: pointer;
   border-left: 2px solid var(--ds4-hide-fg);
   background: var(--ds4-hide-bg);
+  opacity: 0.35;
   transition: opacity 0.15s;
 }
 
 .ds4-hide-wrapper:hover {
   opacity: 0.6;
+}
+
+.ds4-hide-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 12px;
+  height: 28px;
 }
 
 .ds4-hide-label {
@@ -151,13 +168,49 @@
   white-space: nowrap;
 }
 
+.ds4-see-why-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  border: 1px solid var(--ds4-border-bright);
+  background: transparent;
+  color: var(--ds4-text-dim);
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.ds4-see-why-btn:hover {
+  color: var(--ds4-hide-fg);
+  border-color: var(--ds4-hide-fg);
+}
+
+.ds4-hide-reason-panel {
+  display: none;
+  padding: 8px 12px;
+  border-top: 1px solid var(--ds4-hide-fg);
+  background: #ff000011;
+  gap: 8px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.ds4-hide-reason-panel--visible {
+  display: flex;
+}
+
 .ds4-hide-reason {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
+  font-size: 11px;
   color: var(--ds4-text-dim);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  flex: 1;
+  white-space: normal;
+  min-width: 0;
+}
+
+.ds4-reveal-btn--danger:hover {
+  color: var(--ds4-hide-fg);
+  border-color: var(--ds4-hide-fg);
 }
 
 /* Eating animation */

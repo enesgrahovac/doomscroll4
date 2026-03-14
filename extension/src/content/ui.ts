@@ -26,6 +26,14 @@ export function applyShowState(el: Element, reason?: string): void {
     (el as HTMLElement).style.position = (el as HTMLElement).style.position || "relative";
     el.appendChild(badge);
   }
+
+  // Add reason footer as a sibling after the post (outside the article)
+  if (!el.parentElement?.querySelector(".ds4-show-reason")) {
+    const footer = document.createElement("div");
+    footer.classList.add("ds4-show-reason");
+    footer.textContent = reason || "Approved by Doomscroll4";
+    el.insertAdjacentElement("afterend", footer);
+  }
 }
 
 export function applyBlurState(el: Element, reason: string, onRetry?: () => void): void {
@@ -119,23 +127,59 @@ export function applyHideState(el: Element, reason: string): void {
   const wrapper = document.createElement("div");
   wrapper.classList.add("ds4-hide-wrapper");
 
+  // Prevent clicks from propagating to Twitter's article click handler
+  wrapper.addEventListener("click", (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  });
+
+  // Step 1: Compact bar with HIDDEN label + SEE WHY button
+  const bar = document.createElement("div");
+  bar.classList.add("ds4-hide-bar");
+
   const label = document.createElement("span");
   label.classList.add("ds4-hide-label");
   label.textContent = "HIDDEN";
+
+  const seeWhyBtn = document.createElement("button");
+  seeWhyBtn.classList.add("ds4-see-why-btn");
+  seeWhyBtn.textContent = "SEE WHY";
+
+  bar.appendChild(label);
+  bar.appendChild(seeWhyBtn);
+
+  // Step 2: Expanded reason panel (initially hidden)
+  const reasonPanel = document.createElement("div");
+  reasonPanel.classList.add("ds4-hide-reason-panel");
 
   const reasonEl = document.createElement("span");
   reasonEl.classList.add("ds4-hide-reason");
   reasonEl.textContent = reason;
 
-  wrapper.appendChild(label);
-  wrapper.appendChild(reasonEl);
+  const revealBtn = document.createElement("button");
+  revealBtn.classList.add("ds4-reveal-btn", "ds4-reveal-btn--danger");
+  revealBtn.textContent = "REVEAL";
 
-  wrapper.addEventListener("click", () => {
+  reasonPanel.appendChild(reasonEl);
+  reasonPanel.appendChild(revealBtn);
+
+  // SEE WHY expands the reason panel
+  seeWhyBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    reasonPanel.classList.add("ds4-hide-reason-panel--visible");
+    seeWhyBtn.remove();
+  });
+
+  // REVEAL restores the original post
+  revealBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
     el.innerHTML = originalHTML;
     (el as HTMLElement).style.cssText = originalStyles;
     el.setAttribute("data-ds4-state", "revealed");
   });
 
+  wrapper.appendChild(bar);
+  wrapper.appendChild(reasonPanel);
   el.appendChild(wrapper);
 }
 
