@@ -10,7 +10,7 @@ Classify the following post. Respond with ONLY valid JSON, no other text.
 {{
   "score": <float 0.0-1.0, how relevant this post is to the user's SPECIFIC interests and goal>,
   "confidence": <float 0.0-1.0, how certain you are about this classification>,
-  "reason": "<one sentence explanation>"
+  "reason": "<one sentence speaking directly to the user in second person — be their opinionated gremlin, not an analyst>"
 }}
 
 Action thresholds:
