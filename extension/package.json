@@ -1,7 +1,7 @@
 {
   "name": "doomscroll4",
   "version": "0.1.0",
-  "description": "Scroll smarter. Not harder.",
+  "description": "Only see what you came for. Feed your gremlin the garbage posts.",
   "private": true,
   "scripts": {
     "build": "webpack --mode production",

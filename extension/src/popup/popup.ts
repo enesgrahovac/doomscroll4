@@ -43,10 +43,8 @@ async function showMain(profile?: UserProfile) {
 
   // Settings button
   document.getElementById("btn-settings")!.onclick = () => showSettings();
-  document.getElementById("btn-help")!.onclick = () => {
-    // Simple help: open a tab or show info
-    const el = document.getElementById("gremlin-status")!;
-    el.textContent = el.textContent === "idle" ? "i eat bad posts" : "idle";
+  document.getElementById("btn-feedback")!.onclick = () => {
+    chrome.tabs.create({ url: "https://x.com/enesgrahovac" });
   };
 }
 
@@ -111,7 +109,7 @@ function updateScreen() {
   const backBtn = document.getElementById("ob-back") as HTMLButtonElement;
   const nextBtn = document.getElementById("ob-next") as HTMLButtonElement;
   backBtn.disabled = currentScreen === 0;
-  nextBtn.textContent = currentScreen === 4 ? "DONE" : "NEXT";
+  nextBtn.textContent = currentScreen === 3 ? "DONE" : "NEXT";
 }
 
 function setupObNav() {
@@ -123,17 +121,10 @@ function setupObNav() {
   };
 
   document.getElementById("ob-next")!.onclick = async () => {
-    if (currentScreen < 4) {
+    if (currentScreen < 3) {
       currentScreen++;
       updateScreen();
     } else {
-      // Save API config
-      const apiKey = (document.getElementById("ob-api-key") as HTMLInputElement).value.trim();
-      if (apiKey) {
-        const config = await getApiConfig();
-        await saveApiConfig({ apiUrl: config.apiUrl, apiKey });
-      }
-
       // Save profile
       const profile: UserProfile = {
         interests: [...interests],

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Doomscroll4",
   "version": "0.1.0",
-  "description": "Scroll smarter. Not harder. AI-powered feed filter that shows what matters.",
+  "description": "Only see what you came for. Feed your gremlin the garbage posts.",
   "permissions": ["storage", "activeTab"],
   "host_permissions": [
     "https://twitter.com/*",

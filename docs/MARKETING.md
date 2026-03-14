@@ -12,9 +12,9 @@
 Primary tagline. Used everywhere — Chrome Web Store listing, landing page hero, social bio.
 
 Secondary line beneath it where space allows:
-> *Scroll smarter. Not harder.*
+> *Only see what you came for. Feed your gremlin the garbage posts.*
 
-Together they do two things: the first line sells the character and the mechanic. The second line sells the outcome.
+Together they do two things: the first line sells the outcome. The second line sells the character and the mechanic.
 
 ---
 
@@ -103,7 +103,7 @@ Each sub-campaign targets a different audience segment with tailored copy. Same 
 
 **Short description (132 chars max):**
 ```
-Feed your gremlin. AI filters your social feed so you only see what you actually care about.
+Only see what you came for. Feed your gremlin the garbage posts.
 ```
 
 **Category:** Productivity

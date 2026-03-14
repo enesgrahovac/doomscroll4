@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Doomscroll4 Icon Generator</title>
+  <style>
+    body { background: #1a1a1a; color: #ccc; font-family: monospace; padding: 40px; }
+    .icon-row { display: flex; gap: 40px; align-items: flex-end; flex-wrap: wrap; margin-top: 20px; }
+    .icon-item { text-align: center; }
+    canvas { border: 1px solid #333; image-rendering: pixelated; }
+    button { margin-top: 8px; background: #00ff88; color: #000; border: none; padding: 6px 12px; cursor: pointer; font-family: monospace; font-weight: bold; }
+    button:hover { background: #00cc6a; }
+    h1 { color: #00ff88; }
+    #download-all { font-size: 16px; padding: 12px 24px; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <h1>GREM Icon Generator</h1>
+  <p>Click "Download All" or right-click individual icons to save.</p>
+  <div class="icon-row" id="icons"></div>
+  <br>
+  <button id="download-all">Download All Icons</button>
+
+  <script>
+    // 16x16 pixel art - idle gremlin with slight tweaks for icon clarity
+    // 0=transparent, 1=body(dark), 2=accent(eyes/glow), 3=outline, 4=mouth, 5=teeth
+    const SPRITE = [
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,3,3,0,0,0,0,0,0,3,3,0,0,0],
+      [0,0,0,0,3,3,0,0,0,0,3,3,0,0,0,0],
+      [0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0],
+      [0,0,0,3,1,1,1,1,1,1,1,1,3,0,0,0],
+      [0,0,3,1,1,2,2,1,1,2,2,1,1,3,0,0],
+      [0,0,3,1,1,2,2,1,1,2,2,1,1,3,0,0],
+      [0,0,3,1,1,1,1,1,1,1,1,1,1,3,0,0],
+      [0,0,3,1,1,1,4,4,4,4,1,1,1,3,0,0],
+      [0,0,3,1,1,1,1,1,1,1,1,1,1,3,0,0],
+      [0,0,0,3,1,1,1,1,1,1,1,1,3,0,0,0],
+      [0,0,0,3,1,1,1,1,1,1,1,1,3,0,0,0],
+      [0,0,0,0,3,1,3,0,0,3,1,3,0,0,0,0],
+      [0,0,0,0,3,1,3,0,0,3,1,3,0,0,0,0],
+      [0,0,0,0,3,3,3,0,0,3,3,3,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    ];
+
+    const COLORS = {
+      0: null,                // transparent
+      1: '#161616',           // body (dark)
+      2: '#00ff88',           // eyes/accent (neon green)
+      3: '#2a2a2a',           // outline
+      4: '#666666',           // mouth
+    };
+
+    const SIZES = [16, 32, 48, 128];
+
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = size;
+      canvas.height = size;
+      const px = size / 16;
+
+      // Dark background circle/rounded rect for better visibility on light chrome toolbar
+      ctx.fillStyle = '#0d0d0d';
+      if (size >= 48) {
+        // Rounded rect background for larger icons
+        const r = size * 0.15;
+        ctx.beginPath();
+        ctx.moveTo(r, 0);
+        ctx.lineTo(size - r, 0);
+        ctx.quadraticCurveTo(size, 0, size, r);
+        ctx.lineTo(size, size - r);
+        ctx.quadraticCurveTo(size, size, size - r, size);
+        ctx.lineTo(r, size);
+        ctx.quadraticCurveTo(0, size, 0, size - r);
+        ctx.lineTo(0, r);
+        ctx.quadraticCurveTo(0, 0, r, 0);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.fillRect(0, 0, size, size);
+      }
+
+      // Draw the sprite
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          const color = COLORS[SPRITE[y][x]];
+          if (color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(Math.floor(x * px), Math.floor(y * px), Math.ceil(px), Math.ceil(px));
+          }
+        }
+      }
+
+      // Add subtle glow around eyes for larger icons
+      if (size >= 48) {
+        ctx.globalAlpha = 0.15;
+        ctx.fillStyle = '#00ff88';
+        // Left eye glow
+        const eyePositions = [[5,5],[6,5],[5,6],[6,6],[9,5],[10,5],[9,6],[10,6]];
+        for (const [ex, ey] of eyePositions) {
+          ctx.fillRect(Math.floor((ex-0.5) * px), Math.floor((ey-0.5) * px), Math.ceil(px*2), Math.ceil(px*2));
+        }
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    const container = document.getElementById('icons');
+
+    const canvases = {};
+    for (const size of SIZES) {
+      const item = document.createElement('div');
+      item.className = 'icon-item';
+
+      const label = document.createElement('div');
+      label.textContent = `${size}x${size}`;
+
+      const canvas = document.createElement('canvas');
+      canvas.style.width = `${Math.max(size, 64)}px`;
+      canvas.style.height = `${Math.max(size, 64)}px`;
+      drawIcon(canvas, size);
+      canvases[size] = canvas;
+
+      const btn = document.createElement('button');
+      btn.textContent = `Save icon-${size}.png`;
+      btn.onclick = () => downloadCanvas(canvas, `icon-${size}.png`);
+
+      item.appendChild(label);
+      item.appendChild(canvas);
+      item.appendChild(btn);
+      container.appendChild(item);
+    }
+
+    function downloadCanvas(canvas, filename) {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    document.getElementById('download-all').onclick = () => {
+      for (const size of SIZES) {
+        downloadCanvas(canvases[size], `icon-${size}.png`);
+      }
+    };
+  </script>
+</body>
+</html>

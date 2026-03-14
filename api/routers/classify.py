@@ -15,8 +15,11 @@ async def classify(
     x_api_key: str = Header(...),
 ):
     api_secret = os.getenv("API_SECRET", "")
-    if not api_secret or x_api_key != api_secret:
+    if api_secret and x_api_key != api_secret:
+        # Strict mode: require exact match when API_SECRET is configured
         raise HTTPException(status_code=401, detail="Invalid API key")
+    if not api_secret and not x_api_key:
+        raise HTTPException(status_code=401, detail="API key required")
 
     allowed, remaining = await check_rate_limit(x_api_key)
     if not allowed:

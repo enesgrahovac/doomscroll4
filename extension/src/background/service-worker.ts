@@ -2,12 +2,26 @@ const DAILY_LIMIT = 500;
 const COUNT_KEY = "ds4_api_count";
 const COUNT_DATE_KEY = "ds4_api_count_date";
 
-chrome.runtime.onInstalled.addListener((details) => {
+chrome.runtime.onInstalled.addListener(async (details) => {
   console.log(`[DS4] Extension installed (${details.reason})`);
-  chrome.storage.sync.set({
+  await chrome.storage.sync.set({
     [COUNT_KEY]: 0,
     [COUNT_DATE_KEY]: new Date().toDateString(),
   });
+
+  // Auto-generate anonymous API key for free tier (no user setup needed)
+  const config = await chrome.storage.sync.get("ds4_api_config");
+  const existing = config["ds4_api_config"] as { apiUrl?: string; apiKey?: string } | undefined;
+  if (!existing || !existing.apiKey) {
+    const anonId = "ds4_free_" + crypto.randomUUID();
+    await chrome.storage.sync.set({
+      ds4_api_config: {
+        apiUrl: existing?.apiUrl || "http://localhost:8080",
+        apiKey: anonId,
+      },
+    });
+    console.log(`[DS4] Generated anonymous user ID: ${anonId}`);
+  }
 });
 
 async function getDailyCount(): Promise<number> {
