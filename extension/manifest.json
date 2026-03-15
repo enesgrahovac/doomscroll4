@@ -7,7 +7,7 @@
   "host_permissions": [
     "https://twitter.com/*",
     "https://x.com/*",
-    "http://localhost:8080/*"
+    "https://doomscroll4-production.up.railway.app/*"
   ],
   "background": {
     "service_worker": "background.js"

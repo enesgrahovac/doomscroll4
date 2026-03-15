@@ -26,7 +26,7 @@ export async function getApiConfig(): Promise<ApiConfig> {
   const result = await chrome.storage.sync.get(KEYS.apiConfig);
   return (
     (result[KEYS.apiConfig] as ApiConfig) ?? {
-      apiUrl: "http://localhost:8080",
+      apiUrl: "https://doomscroll4-production.up.railway.app",
       apiKey: "",
     }
   );

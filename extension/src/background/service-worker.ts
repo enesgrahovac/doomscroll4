@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     const anonId = "ds4_free_" + crypto.randomUUID();
     await chrome.storage.sync.set({
       ds4_api_config: {
-        apiUrl: existing?.apiUrl || "http://localhost:8080",
+        apiUrl: existing?.apiUrl || "https://doomscroll4-production.up.railway.app",
         apiKey: anonId,
       },
     });

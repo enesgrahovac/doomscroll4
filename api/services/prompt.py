@@ -4,7 +4,7 @@ from models.schemas import UserProfile
 
 CURRENT_PROMPT_VERSION = "v1"
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 GOAL_LABELS = {
     "learn": "learn new things and deepen their knowledge",
