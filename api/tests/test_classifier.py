@@ -80,6 +80,16 @@ def make_request(score_val=0.8, platform="twitter"):
     )
 
 
+@pytest.fixture
+def anthropic_provider(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "anthropic")
+
+
+@pytest.fixture
+def gemini_provider(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+
+
 def mock_anthropic_response(score: float, confidence: float, reason: str) -> MagicMock:
     response_json = json.dumps(
         {"score": score, "confidence": confidence, "reason": reason}
@@ -91,8 +101,16 @@ def mock_anthropic_response(score: float, confidence: float, reason: str) -> Mag
     return response
 
 
+def mock_gemini_response(score: float, confidence: float, reason: str) -> MagicMock:
+    response = MagicMock()
+    response.text = json.dumps(
+        {"score": score, "confidence": confidence, "reason": reason}
+    )
+    return response
+
+
 @pytest.mark.asyncio
-async def test_classify_post_show():
+async def test_classify_post_show(anthropic_provider):
     mock_response = mock_anthropic_response(0.85, 0.9, "Highly relevant AI content")
     mock_client = AsyncMock()
     mock_client.messages.create = AsyncMock(return_value=mock_response)
@@ -107,7 +125,7 @@ async def test_classify_post_show():
 
 
 @pytest.mark.asyncio
-async def test_classify_post_hide():
+async def test_classify_post_hide(anthropic_provider):
     mock_response = mock_anthropic_response(0.05, 0.95, "Obvious spam")
     mock_client = AsyncMock()
     mock_client.messages.create = AsyncMock(return_value=mock_response)
@@ -120,7 +138,7 @@ async def test_classify_post_hide():
 
 
 @pytest.mark.asyncio
-async def test_classify_post_blur():
+async def test_classify_post_blur(anthropic_provider):
     mock_response = mock_anthropic_response(0.4, 0.6, "Tangentially related")
     mock_client = AsyncMock()
     mock_client.messages.create = AsyncMock(return_value=mock_response)
@@ -132,7 +150,7 @@ async def test_classify_post_blur():
 
 
 @pytest.mark.asyncio
-async def test_classify_post_json_code_block():
+async def test_classify_post_json_code_block(anthropic_provider):
     content_block = MagicMock()
     content_block.text = '```json\n{"score": 0.9, "confidence": 0.95, "reason": "Perfect match"}\n```'
     response = MagicMock()
@@ -146,6 +164,21 @@ async def test_classify_post_json_code_block():
 
     assert result.action == "show"
     assert result.score == 0.9
+
+
+@pytest.mark.asyncio
+async def test_classify_post_gemini(gemini_provider):
+    mock_response = mock_gemini_response(0.85, 0.9, "Highly relevant AI content")
+    mock_client = MagicMock()
+    mock_client.aio.models.generate_content = AsyncMock(return_value=mock_response)
+
+    with patch("services.classifier.genai.Client", return_value=mock_client):
+        result = await classify_post(make_request())
+
+    assert result.action == "show"
+    assert result.score == 0.85
+    assert result.confidence == 0.9
+    assert result.prompt_version == "v1"
 
 
 # --- health endpoint test ---
