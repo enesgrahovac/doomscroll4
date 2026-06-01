@@ -10,9 +10,10 @@ from google.genai import errors as genai_errors
 from models.schemas import ClassifyRequest, ClassifyResponse
 from services.prompt import CURRENT_PROMPT_VERSION, build_prompt
 
-# gemini-3.5-flash can return transient 503 UNAVAILABLE ("high demand") under
-# load spikes; retry a few times with short backoff before surfacing the error.
-_GEMINI_MAX_ATTEMPTS = 3
+# gemini-3.5-flash can fail transiently two ways: a 503 UNAVAILABLE ("high
+# demand") under load spikes, or an empty/blank candidate (no text to parse).
+# Both are non-deterministic, so retry a few times before surfacing the error.
+_GEMINI_MAX_ATTEMPTS = 4
 _GEMINI_BACKOFF_SECONDS = 0.6
 
 
@@ -55,19 +56,26 @@ async def _classify_gemini(prompt: str) -> dict:
                 model=model,
                 contents=prompt,
                 config={
-                    "max_output_tokens": 512,
+                    # Generous cap so any stray thinking can't truncate the JSON
+                    # output to empty; the body is only ~60 tokens, so this costs
+                    # nothing in the normal case (you pay per token generated).
+                    "max_output_tokens": 2048,
                     # Disable thinking ("minimal") for this high-volume,
                     # latency-sensitive per-post call: the prompt already mandates
-                    # JSON-only output, and any thinking budget risks consuming
-                    # max_output_tokens and returning empty text. This mirrors the
-                    # no-thinking behavior of the Haiku path.
+                    # JSON-only output. Mirrors the no-thinking Haiku path.
                     "thinking_config": {"thinking_level": "minimal"},
                 },
             )
-            return parse_json_response(response.text)
-        except genai_errors.ServerError as e:  # transient 5xx (e.g. 503 high demand)
+            text = response.text
+            if not text or not text.strip():
+                raise ValueError("empty response text from gemini")
+            return parse_json_response(text)
+        except (genai_errors.ServerError, ValueError) as e:
+            # ServerError -> capacity blip (back off); ValueError/JSONDecodeError
+            # -> empty or unparseable candidate (retry immediately). JSONDecodeError
+            # subclasses ValueError, so both are caught here.
             last_err = e
-            if attempt < _GEMINI_MAX_ATTEMPTS - 1:
+            if attempt < _GEMINI_MAX_ATTEMPTS - 1 and isinstance(e, genai_errors.ServerError):
                 await asyncio.sleep(_GEMINI_BACKOFF_SECONDS * (attempt + 1))
     raise last_err
 

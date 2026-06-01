@@ -205,6 +205,22 @@ async def test_classify_post_gemini_retries_on_503(gemini_provider):
     assert mock_client.aio.models.generate_content.call_count == 2
 
 
+@pytest.mark.asyncio
+async def test_classify_post_gemini_retries_on_empty(gemini_provider):
+    empty = MagicMock()
+    empty.text = ""  # blank candidate -> unparseable, should be retried
+    good = mock_gemini_response(0.85, 0.9, "Recovered after an empty response")
+    mock_client = MagicMock()
+    mock_client.aio.models.generate_content = AsyncMock(side_effect=[empty, good])
+
+    with patch("services.classifier.genai.Client", return_value=mock_client):
+        result = await classify_post(make_request())
+
+    assert result.action == "show"
+    assert result.score == 0.85
+    assert mock_client.aio.models.generate_content.call_count == 2
+
+
 # --- health endpoint test ---
 
 
