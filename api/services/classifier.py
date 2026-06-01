@@ -1,12 +1,19 @@
+import asyncio
 import json
 import os
 import re
 
 import anthropic
 from google import genai
+from google.genai import errors as genai_errors
 
 from models.schemas import ClassifyRequest, ClassifyResponse
 from services.prompt import CURRENT_PROMPT_VERSION, build_prompt
+
+# gemini-3.5-flash can return transient 503 UNAVAILABLE ("high demand") under
+# load spikes; retry a few times with short backoff before surfacing the error.
+_GEMINI_MAX_ATTEMPTS = 3
+_GEMINI_BACKOFF_SECONDS = 0.6
 
 
 def derive_action(score: float, confidence: float) -> str:
@@ -41,19 +48,28 @@ async def _classify_gemini(prompt: str) -> dict:
     model = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
     client = genai.Client()  # reads GEMINI_API_KEY / GOOGLE_API_KEY from env
 
-    response = await client.aio.models.generate_content(
-        model=model,
-        contents=prompt,
-        config={
-            "max_output_tokens": 512,
-            # Disable thinking ("minimal") for this high-volume, latency-sensitive
-            # per-post call: the prompt already mandates JSON-only output, and any
-            # thinking budget risks consuming max_output_tokens and returning empty
-            # text. This mirrors the no-thinking behavior of the Haiku path.
-            "thinking_config": {"thinking_level": "minimal"},
-        },
-    )
-    return parse_json_response(response.text)
+    last_err = None
+    for attempt in range(_GEMINI_MAX_ATTEMPTS):
+        try:
+            response = await client.aio.models.generate_content(
+                model=model,
+                contents=prompt,
+                config={
+                    "max_output_tokens": 512,
+                    # Disable thinking ("minimal") for this high-volume,
+                    # latency-sensitive per-post call: the prompt already mandates
+                    # JSON-only output, and any thinking budget risks consuming
+                    # max_output_tokens and returning empty text. This mirrors the
+                    # no-thinking behavior of the Haiku path.
+                    "thinking_config": {"thinking_level": "minimal"},
+                },
+            )
+            return parse_json_response(response.text)
+        except genai_errors.ServerError as e:  # transient 5xx (e.g. 503 high demand)
+            last_err = e
+            if attempt < _GEMINI_MAX_ATTEMPTS - 1:
+                await asyncio.sleep(_GEMINI_BACKOFF_SECONDS * (attempt + 1))
+    raise last_err
 
 
 _PROVIDERS = {

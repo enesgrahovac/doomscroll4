@@ -181,6 +181,30 @@ async def test_classify_post_gemini(gemini_provider):
     assert result.prompt_version == "v1"
 
 
+@pytest.mark.asyncio
+async def test_classify_post_gemini_retries_on_503(gemini_provider):
+    from services.classifier import genai_errors
+
+    err = genai_errors.ServerError(
+        503, {"error": {"message": "high demand", "status": "UNAVAILABLE"}}
+    )
+    mock_response = mock_gemini_response(0.9, 0.95, "Recovered after a 503")
+    mock_client = MagicMock()
+    # First call 503s, second call succeeds -> retry should swallow the 503.
+    mock_client.aio.models.generate_content = AsyncMock(
+        side_effect=[err, mock_response]
+    )
+
+    with patch("services.classifier.genai.Client", return_value=mock_client), patch(
+        "services.classifier.asyncio.sleep", new=AsyncMock()
+    ):
+        result = await classify_post(make_request())
+
+    assert result.action == "show"
+    assert result.score == 0.9
+    assert mock_client.aio.models.generate_content.call_count == 2
+
+
 # --- health endpoint test ---
 
 
